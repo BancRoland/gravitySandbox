@@ -1,19 +1,20 @@
 clear all;
 close all;
 %% állandók
-gamma=0.1;
-dt=0.1;
+gamma=(6.67E-11);
+dt=86400*15;
 
-masses=[10, 0.01, 0.0001];    %tömegek
-positions=[0 0 ; 1 0 ; 2 0]'; %pozíciók
-velocity=[0 0 ; 0 1 ; 0 0.8]';   %sebességek
+masses=[2E30, 4.8E24, 6E24, 6.4E23 1.9E27];    %tömegek
+positions=[0 0 ; 110E9 0; 150E9 0; 250E9 0; 750E9 0]'; %pozíciók
+velocity=[0 0 ; 0 35E3; 0 30E3; 0 24E3; 0 13E3]';   %sebességek
+
 
 bodyCount=length(masses);
 dim=height(positions);
 
 figure(2);
 
-for t=0:dt:dt*1000
+for t=0:dt:365*86400
     
     diffMatrix=[];
     for incCord=1:dim
@@ -31,10 +32,10 @@ for t=0:dt:dt*1000
     %     clf;
     hold on;
     for incBod=1:bodyCount
-        scatter(positions(1,incBod),positions(2,incBod),'.','k');
+        scatter(positions(1,incBod)*1E-12,positions(2,incBod)*1E-12,'.','k');
     end
-    xlim([-5,5]);
-    ylim([-5,5]);
+    xlim([-1,1]);
+    ylim([-1,1]);
     axis square;
     pause(0.001);
 end
