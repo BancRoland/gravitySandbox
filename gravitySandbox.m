@@ -1,13 +1,16 @@
 clear all;
 close all;
 %% állandók
-gamma=0.1;
-dt=0.2;
-T=200*dt;
+ob1=1;
+ob2=3;
 
-masses=[10, 0.01];    %tömegek
-positions=[0 0 ; 1 0]'; %pozíciók
-velocity=[0 0 ; 0 1.2]';   %sebességek
+gamma=0.1;
+dt=0.3;
+T=500*dt;
+
+masses=[5, 5, 0.01];    %tömegek
+positions=[-1 0 ; 1 0; 5 0]'; %pozíciók
+velocity=[0 -0.3 ; 0 0.3 ; 0 0.44]';   %sebességek
 
 bodyCount=length(masses);
 dim=height(positions);
@@ -45,9 +48,9 @@ for incT=1:length(t)
     velocity=velocity+accelVec*dt;
     positions=positions+velocity*dt;
     
-    distGraph=[distGraph distMatrix(1,2)];  %ábrázolni kívánt távolságfüggvény
-    angleGraph=[angleGraph atan2d(diffMatrix(1,2,2),diffMatrix(1,2,1))];
-    intensityGraph=[intensityGraph 1/distMatrix(1,2)^2];
+    distGraph=[distGraph distMatrix(ob1,ob2)];  %ábrázolni kívánt távolságfüggvény
+    angleGraph=[angleGraph atan2d(diffMatrix(ob1,ob2,2),diffMatrix(ob1,ob2,1))];
+    intensityGraph=[intensityGraph 1/distMatrix(ob1,ob2)^2];
     %     clf;
     
     subplot(4,1,[1,2]);
