@@ -1,19 +1,21 @@
 clear all;
 close all;
 %% állandók
+pow=0; %távolság hatványkitevője (a valóságban -2)
 gamma=0.1;
 dt=0.1;
+T=1000*dt;
 
-masses=[10, 0.01, 0.0001];    %tömegek
+masses=[10, 0, 0];    %tömegek
 positions=[0 0 ; 1 0 ; 2 0]'; %pozíciók
-velocity=[0 0 ; 0 1 ; 0 0.8]';   %sebességek
+velocity=[0 0 ; 0 1 ; 0 2]';   %sebességek
 
 bodyCount=length(masses);
 dim=height(positions);
 
 figure(2);
 
-for t=0:dt:dt*1000
+for t=0:dt:T
     
     diffMatrix=[];
     for incCord=1:dim
@@ -24,10 +26,10 @@ for t=0:dt:dt*1000
     normDiffMatrix=bsxfun(@rdivide,diffMatrix,distMatrix);
     massesMatrix=(ones(bodyCount)-eye(bodyCount))*sqrt((masses'*masses).*eye(bodyCount));
     
-    accelMatrix=(gamma*massesMatrix./distMatrix.^2).*normDiffMatrix;
-    accelVec=[accelMatrix(:,:,1)*ones(bodyCount,1),accelMatrix(:,:,2)*ones(bodyCount,1)]'
+    accelMatrix=(gamma*massesMatrix.*distMatrix.^pow).*normDiffMatrix;
+    accelVec=[accelMatrix(:,:,1)*ones(bodyCount,1),accelMatrix(:,:,2)*ones(bodyCount,1)]';
     velocity=velocity+accelVec*dt;
-    positions=positions+velocity*dt
+    positions=positions+velocity*dt;
     %     clf;
     hold on;
     for incBod=1:bodyCount
